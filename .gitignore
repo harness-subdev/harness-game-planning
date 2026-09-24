@@ -1,0 +1,5 @@
+__pycache__/
+*.py[cod]
+.DS_Store
+# Local execution records contain machine-specific paths.
+evidence/

@@ -1,0 +1,4 @@
+interface:
+  display_name: "게임 기획 검수와 검증"
+  short_description: "문서 일관성 검수와 플레이 검증 계획, 실제 관찰 증거를 분리"
+  default_prompt: "$game-planning-validation으로 기획 일관성을 검수하고 검증 계획과 실제 플레이 근거를 구분해 정리해 줘."
