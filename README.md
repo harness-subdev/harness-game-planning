@@ -12,8 +12,8 @@
 원래 작업 공간의 [분석 내용과 사용법](/Users/igyeongseob/Develop/08_side/storio_games/기획분석/game-planning-workflow/README.md) 링크는 해당 로컬 환경에서만 사용할 수 있다. 다른 컴퓨터에서는 위 저장소 내부 링크를 사용한다.
 
 ```sh
-git clone https://github.com/herness-subdev/herness-game-planning.git
-cd herness-game-planning
+git clone https://github.com/harness-subdev/harness-game-planning.git
+cd harness-game-planning
 python3 -m http.server 4174 --bind 127.0.0.1
 ```
 
