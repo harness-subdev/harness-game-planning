@@ -1,6 +1,6 @@
 # 게임 분석과 신작 기획을 연결하는 스킬 워크플로우
 
-원작 게임의 레퍼런스 보고서 또는 신작의 컨셉·규칙·진행 기획을 조사·작성·검수·로컬 HTML로 연결한다. **총괄 1개 + 단계 스킬 6개**, 현재 버전은 **v0.1.0**이다. 원작 분석과 신작 설계의 산출물을 구분하고, 캡처가 없는 설명도 출처와 확인 범위를 밝혀 문서에 남긴다.
+원작 게임의 레퍼런스 보고서 또는 신작의 컨셉·규칙·진행 기획을 조사·작성·검수·로컬 HTML로 연결한다. **총괄 1개 + 단계 스킬 6개**, 현재 버전은 **v0.2.0**이다. 원작 분석과 신작 설계의 산출물을 구분하고, 캡처가 없는 설명도 출처와 확인 범위를 밝혀 문서에 남긴다.
 
 [워크플로우 HTML](index.html)은 **신작 기획 경로 예시**다. 원작 보고서의 경로와 현재 빌더의 표시 한계도 안내한다. `start.command`를 실행한 뒤 [로컬 화면](http://127.0.0.1:4174/index.html)에서 확인할 수 있다.
 
@@ -22,6 +22,20 @@ Python 3가 필요하다. macOS에서는 `start.command`를 실행해도 된다.
 `skills/`의 7개 폴더를 `${CODEX_HOME:-~/.codex}/skills/` 아래 같은 이름으로 복사한다. 기존 동명 스킬이 있다면 내용을 비교한 뒤 갱신한다. 일곱 폴더의 상대 참조를 유지해야 한다.
 
 필요한 흐름 그림에는 기존 `mermaid-diagrams`, 추가 브라우저 검수에는 `webapp-testing`을 사용한다. 두 보조 스킬은 이 저장소에 포함하지 않으며, 설치 루트의 같은 수준에 별도로 설치된 경우 상대 참조로 연결된다. 누락됐을 때의 처리와 Chrome 지원 API 사용 기준은 각 진입점에 명시되어 있다.
+
+## V3 사전으로 장르별 용어 선택하기
+
+보고서·기획을 시작할 때 [V3 조회 지침](skills/game-planning-workflow/references/domain-dictionary.md)에 따라 사전 메타데이터부터 확인한다. 장르·하위 유형의 이름 정의와 전문어를 구별하고 선택 범위의 행만 읽는다. 부모·공용·다른 장르 용어는 필요한 node/key를 별도 조회한다. 선택 용어의 정의·구별 기준·의미 차이·예문·ref를 확인해 프로젝트 명칭과 본문 위치에 연결하고 validation에서 실제 문장을 대조한다.
+
+사전과 조회 도구는 workflow 스킬 폴더에 함께 포함되어 설치 후에도 이전 작업 폴더에 의존하지 않는다. 원문 129개 노드·653행·120개 출처는 그대로 보존한다. Python 표준 라이브러리만 사용한다.
+
+```sh
+python3 skills/game-planning-workflow/scripts/query_dictionary.py --list
+python3 skills/game-planning-workflow/scripts/query_dictionary.py 1.2.1 --mode terms
+python3 skills/game-planning-workflow/scripts/query_dictionary.py 2.6 --mode terms --scope direct --key '런(run)'
+```
+
+복합 장르는 각각 명시적으로 선택하고 직접 전문어가 없는 절은 빈 결과를 유지한다. 사전 예문은 해당 작품의 실제 규칙이나 신작 확정 설계의 근거가 아니다. 기존 프로젝트 사전·사용자 명칭과 실제 작품 자료를 함께 확인한다. 변경 이력은 [CHANGELOG](CHANGELOG.md), 검증 범위는 [VERIFICATION](VERIFICATION.md)에 기록한다.
 
 ## 실행 구조
 
@@ -159,6 +173,6 @@ $front-game-planning-html 현재 기획 문서를 로컬 HTML로 생성해줘.
 
 ## 버전과 빌드
 
-[VERSION](VERSION)이 유일한 의미 버전 정본이며 현재 값은 `0.1.0`이다. [CHANGELOG](CHANGELOG.md)에 해당 버전의 실제 변경 내용과 한계를 기록한다. README와 예시 HTML의 버전 표시는 이 값을 반영한다. `portal.json`의 `version: 1`은 입력 형식 버전으로 별개다.
+[VERSION](VERSION)이 유일한 의미 버전 정본이며 현재 값은 `0.2.0`이다. [CHANGELOG](CHANGELOG.md)에 해당 버전의 실제 변경 내용과 한계를 기록한다. README와 예시 HTML의 버전 표시는 이 값을 반영한다. `portal.json`의 `version: 1`은 입력 형식 버전으로 별개다.
 
 다음 버전은 `VERSION`을 수동으로 갱신하고 같은 버전의 변경 내역을 추가한 뒤 README·포털 표시를 갱신한다. [검증 기록](VERIFICATION.md)의 기존 Python 자체 점검·빌드 명령을 실행하고 함께 커밋한다. 빌드 대상은 정확한 Git 커밋 SHA로 식별하며, 커밋 시각이나 실행 횟수를 의미 버전 대신 사용하지 않는다. GitHub Actions·자동 버전 증가·태그·릴리스 발행은 구성하지 않았다.
