@@ -1,8 +1,16 @@
 # 게임 분석과 신작 기획을 연결하는 스킬 워크플로우
 
-원작 게임의 레퍼런스 보고서 또는 신작의 컨셉·규칙·진행 기획을 조사·작성·검수·로컬 HTML로 연결한다. **총괄 1개 + 단계 스킬 6개**, 현재 버전은 **v0.2.0**이다. 원작 분석과 신작 설계의 산출물을 구분하고, 캡처가 없는 설명도 출처와 확인 범위를 밝혀 문서에 남긴다.
+원작 게임의 레퍼런스 보고서 또는 신작의 컨셉·규칙·진행 기획을 조사·작성·검수·로컬 HTML로 연결한다. **총괄 1개 + 단계 스킬 6개**, 현재 버전은 **v0.2.0**이다. V3 도메인 사전에서 장르에 맞는 용어를 선택해 집필하고 실제 문장의 의미를 검수한다. 원작 분석과 신작 설계의 산출물을 구분하고, 캡처가 없는 설명도 출처와 확인 범위를 밝혀 문서에 남긴다.
 
 [워크플로우 HTML](index.html)은 **신작 기획 경로 예시**다. 원작 보고서의 경로와 현재 빌더의 표시 한계도 안내한다. `start.command`를 실행한 뒤 [로컬 화면](http://127.0.0.1:4174/index.html)에서 확인할 수 있다.
+
+## v0.2.0에서 달라진 점
+
+- **장르별 용어 선택:** 사전 메타데이터로 실제 장르·하위 유형을 찾고 이름 정의와 전문어를 구별한다. 전체 사전 대신 필요한 범위만 읽는다.
+- **보고서 작성과 검수 연결:** 정의·구별 기준·의미 차이·예문·ref를 확인해 프로젝트 명칭을 정하고, 실제 본문 사용 위치를 작성자와 검수 단계에 전달한다.
+- **설치 후 바로 조회:** workflow 폴더에 V3 원문·조회 도구·공통 지침을 함께 포함한다. 이전 작업 폴더에 의존하지 않으며 Python 표준 라이브러리만 사용한다.
+
+기존 7개 스킬 이름과 HTML 입력 형식 `version: 1`은 유지한다. [버전별 변경 이력](CHANGELOG.md)과 [검증 범위](VERIFICATION.md)를 함께 확인할 수 있다.
 
 ## 바로 보기
 
@@ -25,31 +33,54 @@ Python 3가 필요하다. macOS에서는 `start.command`를 실행해도 된다.
 
 ## V3 사전으로 장르별 용어 선택하기
 
-보고서·기획을 시작할 때 [V3 조회 지침](skills/game-planning-workflow/references/domain-dictionary.md)에 따라 사전 메타데이터부터 확인한다. 장르·하위 유형의 이름 정의와 전문어를 구별하고 선택 범위의 행만 읽는다. 부모·공용·다른 장르 용어는 필요한 node/key를 별도 조회한다. 선택 용어의 정의·구별 기준·의미 차이·예문·ref를 확인해 프로젝트 명칭과 본문 위치에 연결하고 validation에서 실제 문장을 대조한다.
+보고서·기획을 시작할 때 [공통 조회 지침](skills/game-planning-workflow/references/domain-dictionary.md)에 따라 [V3 사전](skills/game-planning-workflow/references/game-domain-dictionary-v3.md)의 첫 HTML 주석에 있는 JSON 메타데이터를 확인한다. `schema=game-domain-dictionary-query/1`의 실제 노드에 대상의 조작·목표·진행을 대응시킨다. 기능이나 행동 이름을 새 하위 장르로 만들지 않는다.
 
-사전과 조회 도구는 workflow 스킬 폴더에 함께 포함되어 설치 후에도 이전 작업 폴더에 의존하지 않는다. 원문 129개 노드·653행·120개 출처는 그대로 보존한다. Python 표준 라이브러리만 사용한다.
+다음 명령은 저장소 루트 기준이다. 설치 후에는 실제 설치된 `game-planning-workflow/scripts/query_dictionary.py` 경로로 실행한다. 도구는 사전을 내부에서 읽고 메타데이터 또는 선택한 표 행만 출력한다.
 
 ```sh
+# 실제 노드·이름 키·참조 관계부터 확인
 python3 skills/game-planning-workflow/scripts/query_dictionary.py --list
+# FPS의 이름 정의와 전문어를 따로 조회
+python3 skills/game-planning-workflow/scripts/query_dictionary.py 1.2.1 --mode genre_names
 python3 skills/game-planning-workflow/scripts/query_dictionary.py 1.2.1 --mode terms
+# FPS + 로그라이트의 필요한 범위를 각각 명시
+python3 skills/game-planning-workflow/scripts/query_dictionary.py 1.2.1 1.23.2 --mode terms
+# 공용 개념인 런은 별도 노드에서 해당 항목만 조회
 python3 skills/game-planning-workflow/scripts/query_dictionary.py 2.6 --mode terms --scope direct --key '런(run)'
 ```
 
-복합 장르는 각각 명시적으로 선택하고 직접 전문어가 없는 절은 빈 결과를 유지한다. 사전 예문은 해당 작품의 실제 규칙이나 신작 확정 설계의 근거가 아니다. 기존 프로젝트 사전·사용자 명칭과 실제 작품 자료를 함께 확인한다. 변경 이력은 [CHANGELOG](CHANGELOG.md), 검증 범위는 [VERIFICATION](VERIFICATION.md)에 기록한다.
+| 조회 선택 | 동작 |
+| --- | --- |
+| 기본 범위 | 선택 노드와 `parent` 역조회로 산출한 자손. 부모·`references`는 자동 회수하지 않음 |
+| `--scope direct` | 선택 노드의 등록 앵커부터 본문 순서상 다음 등록 앵커 직전까지. 마지막 노드는 EOF까지 |
+| `--mode all` | 선택 범위의 표 데이터 행 전체. CLI 기본값 |
+| `--mode genre_names` | 각 노드의 `genre_name_keys`에 등록된 이름 정의 |
+| `--mode terms` | 이름 정의를 제외한 전문어. 집필할 용어 선택에 사용 |
+| `--key` | 선택 범위 안에서 정확한 key로 필터. 반복 가능하며 대소문자 포함 원문 표기 사용 |
+| `--dictionary` | 사용자가 지정한 확정 사전 경로. 동일한 메타데이터 계약 필요 |
+
+복합 장르는 각각 선택한다. 부모·공용·다른 장르의 개념이 필요하면 사용 목적과 별도 node/key를 명시해 조회한다. ARPG(`1.10.1`)·시간관리(`1.13.2`)처럼 직접 전문어가 없는 절은 빈 결과를 유지한다. 등록되지 않은 ID나 선택 범위에 없는 key는 오류로 구별한다.
+
+선택한 행의 정의·구별 기준·의미 차이·예문·ref를 확인해 실제 대상·행동·결과에 맞는 명칭을 고른다. 예를 들어 반동과 탄퍼짐은 별개다. 사전 예문의 특정 반동 방향·크기나 런 초기화 조건을 실제 작품의 규칙 또는 신작 확정 설계로 가져오지 않는다. 작품 공식 명칭·사용자 결정·새 프로젝트 정의는 각각의 근거와 상태를 유지한다.
+
+실제 사용하는 항목만 기존 프로젝트 사전 또는 `00-glossary.md`에 기록한다. 본문 명칭·쉬운 정의·구별·원어·명칭 상태·작품 규칙 근거와 사전 node ID/key·ref·본문 사용 위치를 연결한다. 사전 경로/해시·조회 범위·별도 참조·선택 이유는 기존 작업 기록에 남긴다. validation이 실제 문장과 개념 경계를 대조한 뒤 수정된 원문을 HTML에 투영한다. 내부 조회·검수 이력은 독자용 보고서와 HTML에 표시하지 않는다.
+
+포함된 사전은 **129개 노드·653행(이름 정의 153개 + 전문어 500개)·120개 번호형 출처**의 확정 원문이다. 보고서 작업 중 사전을 재집필하지 않는다. 조회 지침과 프로젝트 명칭·문체 지침은 각각 [domain-dictionary.md](skills/game-planning-workflow/references/domain-dictionary.md), [game-terminology.md](skills/game-planning-workflow/references/game-terminology.md)가 맡는다.
 
 ## 실행 구조
 
 ```mermaid
 flowchart TD
   A[아이디어 · 기존 기획 · 레퍼런스 URL] --> O[game-planning-workflow 총괄]
-  O --> M{요청 목적}
+  O --> D[V3 메타데이터 · 장르 대응 · 필요한 용어 선택]
+  D --> M{요청 목적}
   M -->|원작 분석| R[research 자료 · 장면 · UI 조사와 보고서]
   R --> I[필요한 concept · systems · progression 해석과 흐름 그림]
-  I --> V[validation 내용 · 출처 · 장면 대조]
+  I --> V[validation 용어 의미 · 내용 · 출처 · 장면 대조]
   V --> H[HTML 렌더러 선택 · 생성 · Chrome 표시 확인]
   V -->|근거 또는 해석 수정| R
   M -->|신작 기획| N[research → concept → systems → progression]
-  N --> T[validation 모순 · 검증 계획과 실행 증거]
+  N --> T[validation 용어 의미 · 모순 · 검증 계획과 실행 증거]
   T --> J[HTML 기획서 허브]
   T -->|설계 수정| N
 ```
@@ -62,33 +93,15 @@ flowchart TD
 
 | 단계 / 호출 스킬 | 하는 일 | 나오는 결과 |
 | --- | --- | --- |
-| 총괄 `$game-planning-workflow` | 범위 확인, 단계 선택, 인계, 검수, 재개·변경 영향 관리 | `workflow.json` |
-| 1 `$game-planning-research` | 브리프 정리, 조사 질문, 공개 자료·기존 문서 검토, 비교, 충돌 확인 | `00-brief.md`, `sources.json`, `01-research.md` |
-| 2 `$game-planning-concept` | 조사에서 설계 기회 도출, 핵심 재미·선택·반복 플레이·MVP 정의 | `02-concept.md` |
-| 3 `$game-planning-systems` | 조작, 상태, 발동 조건, 효과, 피드백, 예외, 수치·콘텐츠 명세 | `03-systems.md` |
-| 4 `$game-planning-progression` | 처음 배우는 것부터 응용·숙련까지, 세션/스테이지/성장 흐름 설계 | `04-progression.md` |
-| 5 `$game-planning-validation` | 모순·누락 확인, 가설별 테스트 설계, 실제 결과와 미실행 구분 | `05-validation.md` |
-| 6 `$front-game-planning-html` | 원문에서 열람 데이터를 만들고 목차·상세·근거가 있는 HTML 생성 | `portal.json`, `index.html` |
+| 총괄 `$game-planning-workflow` | 범위·장르·용어 선택, 단계 인계, 검수, 재개·변경 영향 관리 | `workflow.json` |
+| 1 `$game-planning-research` | 브리프·장르 대응, 필요한 용어·자료·장면 조사, 비교·충돌 확인 | `00-brief.md`, `sources.json`, `01-research.md` |
+| 2 `$game-planning-concept` | 선택 용어로 핵심 경험·선택·반복 플레이·MVP 정의 | `02-concept.md` |
+| 3 `$game-planning-systems` | 용어의 개념 경계를 유지하며 조작·상태·조건·효과·수치·예외 명세 | `03-systems.md` |
+| 4 `$game-planning-progression` | 런·세션·성장을 구별하고 학습·난도·회복·콘텐츠 진행 설계 | `04-progression.md` |
+| 5 `$game-planning-validation` | 실제 사용 문장의 용어 의미·모순·근거 대조, 검증 계획·실행 구분 | `05-validation.md` |
+| 6 `$front-game-planning-html` | 검수된 원문의 명칭·정의·근거·상태를 보존해 HTML 생성 | `portal.json`, `index.html` |
 
 개별 스킬도 호출할 수 있다. 각 단계는 입력, 수행 절차, 완료 기준, 다음 단계 인계가 명시되어 있다. 실제 입력이 부족하면 가정과 질문을 남기며, 단계마다 기계적으로 사용자 승인을 요구하지 않는다.
-
-## 제공된 Avoid Ball 분석 기록
-
-아래는 이전에 제공된 자료·미러의 분석 기록이다. 원저자의 실제 검색·작성 순서를 복원한 결과가 아니며, v0.1.0 게시 작업에서 원사이트나 게임을 새로 관찰하지 않았다.
-
-| 분석 | 근거 | 재사용 방식 |
-| --- | --- | --- |
-| 컨셉 → 상세 항목 → 행동 예시 → 진행 지도라는 열람 동선 | [홈](https://avoid-ball.netlify.app/), [컨셉](https://avoid-ball.netlify.app/planning/concept.html) | 다른 게임도 큰 흐름을 먼저 읽고 상세로 들어가게 구성 |
-| 적 기획 데이터 한 벌을 상세 문서와 예시가 공유 | [enemy-plans.js](https://avoid-ball.netlify.app/planning/enemy-plans.js), [선택 처리](https://avoid-ball.netlify.app/planning/enemy-select.js) | 안정적인 ID와 정본을 정하고 여러 화면은 파생 |
-| 기획 의도, 실제 배치, 계산 결과, HTML 표시를 분리한다는 설계 | [원본 README](https://avoid-ball.netlify.app/planning/README.md) 24–44행 | 목표·명세·계산·실측을 구분하고 생성 결과 직접 수정을 피함 |
-| 설명용 SVG는 실제 충돌·풀이 검증이 아님 | [원본 README](https://avoid-ball.netlify.app/planning/README.md) 15행 | 필요한 게임에만 도식을 만들고 표현 범위 표시 |
-| 계산 지표와 실제 재미·성공률을 구분 | [원본 README](https://avoid-ball.netlify.app/planning/README.md) 80–86행 | 문서 준비 완료와 게임 검증 완료를 별도 상태로 관리 |
-| 자료의 설명과 현재 데이터 버전이 일부 다름 | [README](https://avoid-ball.netlify.app/planning/README.md) 80행, [campaign.json](https://avoid-ball.netlify.app/planning/data/campaign.json) | 조사 초기에 버전·범위·상충 정보 확인 |
-| 검색 이력과 설계 결정 추적은 원본에 충분히 남아 있지 않음 | 현재 보존된 문서·코드 범위 | 새로 조사 질문 → 관찰 → 해석 → 결정 → 명세 → 검증 연결 추가 |
-
-당시 분석 기록에는 원본 README가 구조 점수를 v2/10개 항목으로 설명하지만 데이터에는 v3 294단계와 v4 6단계가 섞여 있고, v4는 12개 항목/120점이라고 남아 있다. 이 때문에 자료 설명과 정본의 일치 여부를 구분한다. 당시 로컬 미러에는 상류 CSV·Stage JSON·생성기가 없어 그 원본 빌드 실행 여부는 검증하지 못했다.
-
-적 16종, 300단계, 10단계 단위 도입, 50단계마다 높은 난도, 격자 기반 점수식은 분석 대상에 관한 값이다. 당시 분석 대상 포털의 코드·CSS에 고정된 값을 다른 게임의 기본값으로 가져가지 않는다. 신작의 진행 단위와 규칙은 해당 게임에서 결정한다.
 
 ## 신작에서 자료를 설계로 연결하기
 
@@ -107,6 +120,7 @@ flowchart TD
 ```text
 your-project/game-planning/
 ├── 00-brief.md
+├── 00-glossary.md      # 실제 사용 명칭·정의·근거·본문 위치
 ├── sources.json
 ├── 01-research.md
 ├── 02-concept.md
@@ -132,6 +146,8 @@ your-project/game-planning/
 $game-planning-workflow
 제공한 게임의 규칙과 진행을 조사해 원작 레퍼런스 보고서와 로컬 HTML로 만들어줘.
 전체 구조 소개와 상세 분석 대상을 구분하고, 실제 자료·영상·UI의 확인 범위를 밝혀줘.
+V3 사전에서 해당 장르의 이름 정의와 필요한 전문어를 확인해 쓰고,
+실제 본문의 용어 의미와 작품 규칙 근거를 검수해줘.
 ```
 
 신작 기획:
@@ -144,6 +160,16 @@ $game-planning-workflow
 제공한 자료와 관련 레퍼런스를 조사한 뒤,
 핵심 재미·규칙·콘텐츠·진행·검증 계획을 작성하고
 로컬에서 읽을 수 있는 HTML 기획서까지 만들어줘.
+```
+
+복합 장르의 용어부터 확인할 때:
+
+```text
+$game-planning-workflow
+FPS와 로그라이트를 결합한 신작 기획을 작성해줘.
+V3 메타데이터로 각 장르 범위를 명시하고 반동과 탄퍼짐을 구별해줘.
+런은 필요한 공용 정의를 별도 조회하고, 종료·유지 조건은 신작 설계로 구분해줘.
+확정되지 않은 규칙은 제안 또는 미정으로 남겨줘.
 ```
 
 기존 기획을 이어갈 때:
@@ -176,3 +202,21 @@ $front-game-planning-html 현재 기획 문서를 로컬 HTML로 생성해줘.
 [VERSION](VERSION)이 유일한 의미 버전 정본이며 현재 값은 `0.2.0`이다. [CHANGELOG](CHANGELOG.md)에 해당 버전의 실제 변경 내용과 한계를 기록한다. README와 예시 HTML의 버전 표시는 이 값을 반영한다. `portal.json`의 `version: 1`은 입력 형식 버전으로 별개다.
 
 다음 버전은 `VERSION`을 수동으로 갱신하고 같은 버전의 변경 내역을 추가한 뒤 README·포털 표시를 갱신한다. [검증 기록](VERIFICATION.md)의 기존 Python 자체 점검·빌드 명령을 실행하고 함께 커밋한다. 빌드 대상은 정확한 Git 커밋 SHA로 식별하며, 커밋 시각이나 실행 횟수를 의미 버전 대신 사용하지 않는다. GitHub Actions·자동 버전 증가·태그·릴리스 발행은 구성하지 않았다.
+
+## 제공된 Avoid Ball 분석 기록
+
+아래는 이전에 제공된 자료·미러의 분석 기록이다. 원저자의 실제 검색·작성 순서를 복원한 결과가 아니며, v0.1.0 게시 작업에서 원사이트나 게임을 새로 관찰하지 않았다.
+
+| 분석 | 근거 | 재사용 방식 |
+| --- | --- | --- |
+| 컨셉 → 상세 항목 → 행동 예시 → 진행 지도라는 열람 동선 | [홈](https://avoid-ball.netlify.app/), [컨셉](https://avoid-ball.netlify.app/planning/concept.html) | 다른 게임도 큰 흐름을 먼저 읽고 상세로 들어가게 구성 |
+| 적 기획 데이터 한 벌을 상세 문서와 예시가 공유 | [enemy-plans.js](https://avoid-ball.netlify.app/planning/enemy-plans.js), [선택 처리](https://avoid-ball.netlify.app/planning/enemy-select.js) | 안정적인 ID와 정본을 정하고 여러 화면은 파생 |
+| 기획 의도, 실제 배치, 계산 결과, HTML 표시를 분리한다는 설계 | [원본 README](https://avoid-ball.netlify.app/planning/README.md) 24–44행 | 목표·명세·계산·실측을 구분하고 생성 결과 직접 수정을 피함 |
+| 설명용 SVG는 실제 충돌·풀이 검증이 아님 | [원본 README](https://avoid-ball.netlify.app/planning/README.md) 15행 | 필요한 게임에만 도식을 만들고 표현 범위 표시 |
+| 계산 지표와 실제 재미·성공률을 구분 | [원본 README](https://avoid-ball.netlify.app/planning/README.md) 80–86행 | 문서 준비 완료와 게임 검증 완료를 별도 상태로 관리 |
+| 자료의 설명과 현재 데이터 버전이 일부 다름 | [README](https://avoid-ball.netlify.app/planning/README.md) 80행, [campaign.json](https://avoid-ball.netlify.app/planning/data/campaign.json) | 조사 초기에 버전·범위·상충 정보 확인 |
+| 검색 이력과 설계 결정 추적은 원본에 충분히 남아 있지 않음 | 현재 보존된 문서·코드 범위 | 새로 조사 질문 → 관찰 → 해석 → 결정 → 명세 → 검증 연결 추가 |
+
+당시 분석 기록에는 원본 README가 구조 점수를 v2/10개 항목으로 설명하지만 데이터에는 v3 294단계와 v4 6단계가 섞여 있고, v4는 12개 항목/120점이라고 남아 있다. 이 때문에 자료 설명과 정본의 일치 여부를 구분한다. 당시 로컬 미러에는 상류 CSV·Stage JSON·생성기가 없어 그 원본 빌드 실행 여부는 검증하지 못했다.
+
+적 16종, 300단계, 10단계 단위 도입, 50단계마다 높은 난도, 격자 기반 점수식은 분석 대상에 관한 값이다. 당시 분석 대상 포털의 코드·CSS에 고정된 값을 다른 게임의 기본값으로 가져가지 않는다. 신작의 진행 단위와 규칙은 해당 게임에서 결정한다.
