@@ -1,4 +1,4 @@
 interface:
   display_name: "게임 기획 HTML"
-  short_description: "게임 기획 문서를 로컬에서 열리는 HTML 허브로 구성합니다"
-  default_prompt: "$front-game-planning-html로 이 프로젝트의 기획 문서를 로컬 HTML 열람본으로 만들어 주세요."
+  short_description: "원작 보고서와 신작 기획에 맞는 렌더러로 로컬 HTML을 제작합니다"
+  default_prompt: "$front-game-planning-html로 요청한 문서의 원작 분석·신작 기획 모드를 확인하고 로컬 HTML을 만들어 주세요. 실제 지원하는 프로젝트 렌더러를 선택하고 본문·표시 데이터·HTML과 Chrome의 정상·좁은 화면을 대조해 주세요."

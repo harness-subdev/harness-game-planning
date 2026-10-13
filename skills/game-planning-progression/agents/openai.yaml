@@ -1,4 +1,4 @@
 interface:
   display_name: "게임 진행과 콘텐츠 구성"
-  short_description: "장르에 맞는 학습과 성장, 난도와 회복의 콘텐츠 진행 설계"
-  default_prompt: "$game-planning-progression으로 이 게임의 학습과 성장, 난도와 회복을 요청한 콘텐츠 범위에 맞춰 설계해 줘."
+  short_description: "원작의 플레이와 콘텐츠 진행 분석, 신작의 학습·난도·회복 진행 기획"
+  default_prompt: "$game-planning-progression으로 요청한 원작 분석 또는 신작 기획의 범위에 맞춰 플레이와 콘텐츠 진행을 정리해 줘."

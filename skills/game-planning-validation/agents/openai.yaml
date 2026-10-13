@@ -1,4 +1,4 @@
 interface:
   display_name: "게임 기획 검수와 검증"
-  short_description: "문서 일관성 검수와 플레이 검증 계획, 실제 관찰 증거를 분리"
-  default_prompt: "$game-planning-validation으로 기획 일관성을 검수하고 검증 계획과 실제 플레이 근거를 구분해 정리해 줘."
+  short_description: "원작 보고서의 내용과 장면 근거 검수, 신작 테스트 계획과 실제 증거 분석"
+  default_prompt: "$game-planning-validation으로 요청한 원작 보고서 또는 신작 기획의 내용과 근거를 검수하고 필요한 수정·조사·HTML 검수에 연결해 줘."

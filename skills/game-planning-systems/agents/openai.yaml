@@ -1,4 +1,4 @@
 interface:
   display_name: "게임 시스템 명세"
-  short_description: "입력과 상태, 조건과 효과가 분명한 게임 규칙과 수치 명세 작성"
-  default_prompt: "$game-planning-systems로 이 컨셉의 규칙과 상태, 수치, 예외를 구체적인 시스템 명세로 작성해 줘."
+  short_description: "원작의 실제 규칙과 UI 분석, 신작의 입력·상태·수치 시스템 명세"
+  default_prompt: "$game-planning-systems로 요청한 원작 분석 또는 신작 기획의 범위에 맞춰 규칙과 상태, 입력, 수치를 정리해 줘."

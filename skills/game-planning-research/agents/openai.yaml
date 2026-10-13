@@ -1,4 +1,4 @@
 interface:
   display_name: "게임 기획 자료 조사"
-  short_description: "사용자 브리프와 출처를 정리해 근거가 추적되는 게임 조사 작성"
-  default_prompt: "$game-planning-research로 이 게임의 브리프와 자료를 조사하고 기획 근거를 정리해 줘."
+  short_description: "원작 분석과 신작 자료 조사를 구분하고 실제 장면·UI 근거 수집"
+  default_prompt: "$game-planning-research로 요청한 원작 분석 또는 신작 기획 자료 조사를 수행하고, 필요한 실제 플레이 장면·UI와 출처를 확인해 보고서를 작성해 줘."

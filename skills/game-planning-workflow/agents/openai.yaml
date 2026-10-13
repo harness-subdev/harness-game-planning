@@ -1,4 +1,4 @@
 interface:
   display_name: "게임 기획 오케스트레이터"
-  short_description: "자료 조사부터 게임 기획과 HTML까지 단계별 스킬을 조율합니다"
-  default_prompt: "$game-planning-workflow를 사용해 제공한 게임 아이디어와 자료를 조사하고, 컨셉·시스템·진행·검증 문서와 로컬 HTML 기획서를 만들어줘."
+  short_description: "원작 분석 또는 신작 기획의 조사·작성·검수·HTML을 단계별로 조율합니다"
+  default_prompt: "$game-planning-workflow를 사용해 요청 목적에 맞는 원작 분석 보고서 또는 신작 기획을 조사·작성·검수하고 로컬 HTML까지 완성해줘."
