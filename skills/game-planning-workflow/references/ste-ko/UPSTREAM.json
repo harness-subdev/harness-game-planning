@@ -1,0 +1,15 @@
+{
+  "repository": "https://github.com/beamonic/ste-ko",
+  "commit": "fd351fe1ec427b9d97292099b568767def9cb427",
+  "license": "MIT",
+  "spec_version": "0.5.0",
+  "manifest_version": "0.5.1",
+  "files_sha256": {
+    "SPEC.md": "d15b086b487f9ce624093764d4f17f9fd6414c0479628984180878d3f99bf282",
+    "dictionary.md": "0df4805d050749642f017c8e4790f2c918c5950f6c7b5d8b2030e98e5386e1dc",
+    "LICENSE": "d5032e5a85f31c00b48353e5e35f715179b56d2d21e79d851d07b27a6e489bea",
+    "README.md": "e7a15a9cbc9d393f42ab2dbf3fbfb5d18ba6bf9f6a1b95aa47e78723228ab8c6",
+    "scripts/lint.py": "3faa901aa8eea4e2c62f00c78008b4a84ddb8da7729b8b9caff7dea2db3fe1a6"
+  },
+  "modifications": []
+}

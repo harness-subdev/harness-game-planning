@@ -1,5 +1,22 @@
 # 검증 기록
 
+## v0.3.0 게시 검증 — 2026-10-15
+
+- 새 언어 검사기의 stdlib 실행 검사: 정상·문체 위반·누락/빈/비파싱 사전·미실행/오래된 검수·기본/사용자 V3·공용 함수 변경·스킬 경로 이동을 확인했다.
+- 기존 coverage 회귀 검사 26개(합성 데이터), V3 메타데이터/선택 조회, STE-KO 원본 self-test, 7개 스킬 형식·로컬 참조를 확인했다.
+- STE-KO 원본 5개 파일은 UPSTREAM.json의 고정 커밋 해시와 일치하며 MIT 라이선스를 보존한다.
+- 기존 HTML 빌더 자체 점검과 v0.3.0 안내 portal 빌드를 실행했다. VERSION·README·CHANGELOG·portal 표시 버전과 입력 형식 version: 1을 대조했다.
+- 설치본에서 별도 가상 자료 보고서를 실제 작성·수정하고 의미/수동 문체 대조 및 최종 기록 검사를 실행했다. 이는 실제 게임이나 사람 이해도 시험이 아니다.
+
+새로운 명령:
+
+```sh
+python3 -B skills/game-planning-workflow/scripts/test_report_language.py
+python3 -B skills/game-planning-workflow/references/ste-ko/scripts/lint.py --self-test
+```
+
+이번 게시에는 앞선 미게시 로컬 전수 조사 정책 변경을 포함하지 않는다. 새 검사기의 공용 함수 의존 파일만 함께 배포한다. 자동 검사 0건을 전체 규격/의미 준수로 확대하지 않는다. 안내 HTML은 정적 빌드만 확인했고 이번에 Chrome 화면 검수·게임/영상 관찰·사람 시험·원격 HTML 배포는 수행하지 않았다. 자동 CI·태그·GitHub 릴리스는 구성하지 않았다. 아래는 과거 버전의 검증 이력이다.
+
 ## v0.2.0 안내 HTML 후속 갱신 — 2026-10-13
 
 최신 README의 V3 조회 옵션·명령, 원작/신작 실행 구조, 단계별 용어 책임, 프로젝트 사전·파일 구성과 사용 예시를 portal.json에 반영하고 기존 빌더로 index.html을 다시 생성했다. README의 HTML 위치·설명도 명확히 했다. 의미 버전 0.2.0과 입력 형식 version: 1은 유지한다.
@@ -55,6 +72,6 @@ python3 skills/front-game-planning-html/scripts/build_portal.py portal.json inde
 
 ## 빌드·버전 운영
 
-[VERSION](VERSION)의 `0.2.0`이 의미 버전 정본이고, 정확한 Git 커밋 SHA가 빌드 식별자다. [CHANGELOG](CHANGELOG.md)는 같은 버전의 변경 내용과 호환성·검증 한계를 기록한다. 배포한 내용은 해당 커밋의 `VERSION`과 변경 내역으로 확인한다.
+[VERSION](VERSION)의 `0.3.0`이 의미 버전 정본이고, 정확한 Git 커밋 SHA가 빌드 식별자다. [CHANGELOG](CHANGELOG.md)는 같은 버전의 변경 내용과 호환성·검증 한계를 기록한다. 배포한 내용은 해당 커밋의 `VERSION`과 변경 내역으로 확인한다.
 
 다음 갱신은 `VERSION`과 해당 버전의 변경 내역을 수동으로 수정하고 README·포털의 표시 버전을 맞춘 뒤 위 두 명령을 실행해 함께 커밋한다. 실행마다 자동으로 버전을 증가시키지 않는다. 별도의 GitHub Actions, 자동 배포, 버전 증가 스크립트, 태그·GitHub 릴리스 발행 절차는 없다. 원격 push 성공과 CI 통과는 구별한다.

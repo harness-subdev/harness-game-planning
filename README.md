@@ -1,8 +1,24 @@
 # 게임 분석과 신작 기획을 연결하는 스킬 워크플로우
 
-원작 게임의 레퍼런스 보고서 또는 신작의 컨셉·규칙·진행 기획을 조사·작성·검수·로컬 HTML로 연결한다. **총괄 1개 + 단계 스킬 6개**, 현재 버전은 **v0.2.0**이다. V3 도메인 사전에서 장르에 맞는 용어를 선택해 집필하고 실제 문장의 의미를 검수한다. 원작 분석과 신작 설계의 산출물을 구분하고, 캡처가 없는 설명도 출처와 확인 범위를 밝혀 문서에 남긴다.
+원작 게임의 레퍼런스 보고서 또는 신작의 컨셉·규칙·진행 기획을 조사·작성·검수·로컬 HTML로 연결한다. **총괄 1개 + 단계 스킬 6개**, 현재 버전은 **v0.3.0**이다. V3 도메인 사전에서 장르에 맞는 용어를 선택해 집필하고 실제 문장의 의미를 검수한다. 원작 분석과 신작 설계의 산출물을 구분하고, 캡처가 없는 설명도 출처와 확인 범위를 밝혀 문서에 남긴다.
 
 [게임 기획 스킬 사용 안내(HTML)](index.html)는 이 README의 내용을 웹페이지로 보여주는 `index.html`이다. V3 사전 조회, 원작 분석·신작 기획의 경로, 스킬 설치·사용 예시와 빌더의 한계를 안내한다. `start.command`를 실행한 뒤 [로컬 화면](http://127.0.0.1:4174/index.html)에서 확인할 수 있다.
+
+## v0.3.0에서 달라진 점
+
+- 프로젝트 용어 사전·선택 V3를 읽고 STE-KO `문서` 표면으로 작성하는 기본 경로를 연결했다.
+- 작성 후 자동 탐지와 실제 용어 의미·수동 문체 대조를 분리하고, 원문 수정·재검사로 검수를 닫는다.
+- 최종 검사기는 기존 `workflow.json`과 `05-validation.md`의 검수 범위·해시를 확인한다. 누락 입력·빈 사전·미실행·오래된 검수 기록은 완료로 처리하지 않는다.
+- STE-KO 원본 자료·검사기와 MIT 라이선스를 고정 커밋으로 함께 배포한다. 전역 답변 스타일은 설치하지 않는다.
+
+명령과 기록 형식, 자동 검사의 한계는 [기본 언어 검수 지침](skills/game-planning-workflow/references/report-language.md)을 따른다. 새 검사기는 기존 coverage 검사기의 해시·앵커 함수를 재사용한다. 이번 게시에는 해당 의존 파일을 포함하며 별도 전수 조사 지침 변경은 포함하지 않는다.
+
+```sh
+# 작성 중 자동 탐지. 이 성공만으로 최종 검수 완료는 아니다.
+python3 skills/game-planning-workflow/scripts/check_report_language.py PROJECT/01-research.md --glossary PROJECT/00-glossary.md --lint-only
+# 실제 의미·수동 문체 대조와 기존 기록 저장 후 최종 확인
+python3 skills/game-planning-workflow/scripts/check_report_language.py PROJECT/01-research.md --glossary PROJECT/00-glossary.md --workflow PROJECT/workflow.json
+```
 
 ## v0.2.0에서 달라진 점
 
@@ -199,7 +215,7 @@ $front-game-planning-html 현재 기획 문서를 로컬 HTML로 생성해줘.
 
 ## 버전과 빌드
 
-[VERSION](VERSION)이 유일한 의미 버전 정본이며 현재 값은 `0.2.0`이다. [CHANGELOG](CHANGELOG.md)에 해당 버전의 실제 변경 내용과 한계를 기록한다. README와 예시 HTML의 버전 표시는 이 값을 반영한다. `portal.json`의 `version: 1`은 입력 형식 버전으로 별개다.
+[VERSION](VERSION)이 유일한 의미 버전 정본이며 현재 값은 `0.3.0`이다. [CHANGELOG](CHANGELOG.md)에 해당 버전의 실제 변경 내용과 한계를 기록한다. README와 예시 HTML의 버전 표시는 이 값을 반영한다. `portal.json`의 `version: 1`은 입력 형식 버전으로 별개다.
 
 다음 버전은 `VERSION`을 수동으로 갱신하고 같은 버전의 변경 내역을 추가한 뒤 README·포털 표시를 갱신한다. [검증 기록](VERIFICATION.md)의 기존 Python 자체 점검·빌드 명령을 실행하고 함께 커밋한다. 빌드 대상은 정확한 Git 커밋 SHA로 식별하며, 커밋 시각이나 실행 횟수를 의미 버전 대신 사용하지 않는다. GitHub Actions·자동 버전 증가·태그·릴리스 발행은 구성하지 않았다.
 
